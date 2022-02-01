@@ -1,0 +1,49 @@
+def query_database(database, query):  # This function querys the database
+    conn = sqlite3.connect(database) # connecting to the database which is a file containg the databse
+    cur = conn.cursor()
+    cur.execute(query)  # query is astring you want to run on the database
+    rows = cur.fetchall()
+    cur.close()
+    return rows
+
+
+
+def sql_Insert(database_file, query):
+    conn = sqlite3.connect(database_file) # connecting to the database which is a file containg the databse
+    cur = conn.cursor()
+    cur.execute(query)
+    conn.commit()
+
+
+
+def Logindone_Check_Staff():
+	print("Login check ")
+	query = ("SELECT * from Staff WHERE StaffNumber = '"+ str(StaffUN.value) + "' AND StaffPassword = '" + str(StaffPW.value) + "'")
+	print(query)
+	row = query_database(database_file, query)
+	if len(row)== 0:
+		info("Error!", "Your details are not in our database! Try again.")
+
+	else:
+		UserID_logged = row[0] [0]
+		StaffLogin.hide()
+		MessagesW.show()
+
+
+
+def Get_Messages():
+	MessagesW.info(Text, "Getting your messages")
+	query = ("SELECT * from Message WHERE StaffID = '"+ str(UserID_logged) + "'")
+	print(query)
+	row = query_database(database_file, query)
+	if len(row)== 0:
+		info("You have no new messages!")
+
+	else:
+		# clearlist box
+		list.clear()
+		# add messages to the list box
+		for x in range (0,len(row)):
+			list.append(row[x])
+		StaffLogin.hide()
+		MessagesW.show()
