@@ -1,0 +1,18 @@
+def delete_database(database_file):
+    if os.path.exists(database_file):
+        os.remove(database_file)
+
+
+delete_database(database_file)
+
+####
+#### Create Database
+####
+
+def execute_sql(database, sql_statement):  # This function executes the sql to return last row
+    conn = sqlite3.connect(database)
+    #conn.execute("PRAGMA foreign_keys = 1")
+    cur = conn.cursor()
+    cur.execute(sql_statement)
+    conn.commit()
+    return 
