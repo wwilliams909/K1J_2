@@ -115,60 +115,6 @@ execute_sql(database_file, insertMes2)
 ###
 ###
 
-
-def query_database(database, query):  # This function querys the database
-    conn = sqlite3.connect(database) # connecting to the database which is a file containg the databse
-    cur = conn.cursor()
-    cur.execute(query)  # query is astring you want to run on the database
-    rows = cur.fetchall()
-    cur.close()
-    return rows
-
-
-
-def sql_Insert(database_file, query):
-    conn = sqlite3.connect(database_file) # connecting to the database which is a file containg the databse
-    cur = conn.cursor()
-    cur.execute(query)
-    conn.commit()
-
-
-
-def Logindone_Check_Staff():
-	print("Login check ")
-	query = ("SELECT * from Staff WHERE StaffNumber = '"+ str(StaffUN.value) + "' AND StaffPassword = '" + str(StaffPW.value) + "'")
-	print(query)
-	row = query_database(database_file, query)
-	if len(row)== 0:
-		info("Error!", "Your details are not in our database! Try again.")
-
-	else:
-		UserID_logged = row[0] [0]
-		StaffLogin.hide()
-		MessagesW.show()
-
-
-
-def Get_Messages():
-	MessagesW.info(Text, "Getting your messages")
-	query = ("SELECT * from Message WHERE StaffID = '"+ str(UserID_logged) + "'")
-	print(query)
-	row = query_database(database_file, query)
-	if len(row)== 0:
-		info("You have no new messages!")
-
-	else:
-		# clearlist box
-		list.clear()
-		# add messages to the list box
-		for x in range (0,len(row)):
-			list.append(row[x])
-		StaffLogin.hide()
-		MessagesW.show()
-
-
-
-
 def send_message():
 	MessagesW.info(Text,"Sending your messages")
 	if choice.value ==  "Marlon":
@@ -223,82 +169,6 @@ MessagesW.hide()
 MessagesW.set_full_screen()
 
 
-####
-#### Open & Close Windows
-####
-
-
-
-def open_CustomerLogin():
-    CustomerLogin.show()
-    app.hide()
-
-def open_StaffLogin():
-    StaffLogin.show()
-    app.hide()
-
-####
-#### Back buttons
-####
-
-
-def Go_home():
-	StaffLogin.hide()
-	CustomerLogin.hide()
-	app.show()
-
-
-####
-#### Greetings page
-####
-textspace = Text(app, text="            ")
-textspace = Text(app, text="            ")
-textspace = Text(app, text="            ")
-textspace = Text(app, text="            ")
-textspace = Text(app, text="            ")
-Newbox = Box(app, layout="grid")
-StaffLoginbutton = PushButton(Newbox,text = "Staff Login", width = 10, command = open_StaffLogin, grid=[0,0])
-CustomerLoginbutton = PushButton(Newbox,text = "Customer Login", width = 10, command = open_CustomerLogin, grid=[1,0])
-
-
-
-
-####
-#### Customer Login Window 
-####
-
-text = Text(CustomerLogin, text="Enter your details to login!")
-textspace = Text(CustomerLogin, text="            ")
-textspace = Text(CustomerLogin, text="Please enter your username:")
-CustomerUN = TextBox(CustomerLogin, text = "", width=30)
-textspace1 = Text(CustomerLogin, text="Please enter your password:")
-CustomerPW = TextBox(CustomerLogin, text = "", width=30)
-back_button = PushButton(CustomerLogin, text="Home", command = Go_home, width=20, height = 2  )
-CustomerLoginCheck = PushButton(CustomerLogin, text="Login", command = Logindone_Check_Customer, width=20, height = 2  )
-
-
-
-
-
-####
-#### Staff Login Window
-####
-
-text = Text(StaffLogin, text="Enter your details to login!")
-textspace = Text(StaffLogin, text="            ")
-textspace = Text(StaffLogin, text="Please enter your userID:")
-StaffUN = TextBox(StaffLogin, text = "", width=30)
-textspace1 = Text(StaffLogin, text="Please enter your password:")
-StaffPW = TextBox(StaffLogin, text = "", width=30)
-back_button = PushButton(StaffLogin, text="Home", command = Go_home, width=20, height = 2  )
-StaffLoginCheck= PushButton(StaffLogin, text="Login", command = Logindone_Check_Staff, width=20, height = 2  )
-
-
-
-
-
-
-
 
 
 
@@ -328,10 +198,5 @@ Send_Button = PushButton(MessagesW, text= "SEND!",  width=20, height = 2, comman
 
 
 
-####
-#### Sales Screen
-####
-
-#text = Text(Sales, text = "Sales screeen")
 
 app.display()
